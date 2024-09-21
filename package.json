@@ -3,12 +3,13 @@
   "displayName": "//ConsoleLog",
   "description": "Comment out all console logs in your codebase",
   "version": "0.0.1",
-  "publisher": "WilB",
+  "publisher": "willy-bit",
   "repository": {
     "type": "git",
     "url": "https://github.com/willy-bit/ConsoleLog.git"
   },
   "license": "MIT",
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.93.1"
   },

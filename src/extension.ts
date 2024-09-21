@@ -78,7 +78,7 @@ export function activate(context: vscode.ExtensionContext) {
             workspaceEdit.set(document.uri, edits);
             vscode.workspace.applyEdit(workspaceEdit);
         }
-
+        // Notify the user when done
         vscode.window.showInformationMessage('All console.log statements in this file have been commented out.');
     });
 
