@@ -2,13 +2,14 @@
   "name": "consolelog",
   "displayName": "//ConsoleLog",
   "description": "Comment out all console logs in your codebase",
-  "version": "0.0.1",
-  "publisher": "WilB",
+  "version": "0.0.2",
+  "publisher": "willy-bit",
   "repository": {
     "type": "git",
     "url": "https://github.com/willy-bit/ConsoleLog.git"
   },
   "license": "MIT",
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.93.1"
   },
@@ -24,14 +25,7 @@
         "command": "extension.commentOutConsoleLogs",
         "title": "Console Log"
       }
-    ],
-    "menus": {
-        "issue/reporter": [
-            {
-                "command": "extension.commentOutConsoleLogs"
-            }
-        ]
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
