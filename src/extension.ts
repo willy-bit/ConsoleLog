@@ -37,43 +37,57 @@
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
-  let disposable = vscode.commands.registerCommand('extension.commentOutConsoleLogs', () => {
-	// Traget the currently open active file
-    const editor = vscode.window.activeTextEditor;
-    if (editor) {
-		//Fetch the content of the active document
-      const document = editor.document;
-      const text = document.getText();
-	  //Simple regular expression to find all the console.log statements.
-      const regex = /console\.log\([^\)]*\);?/g;
+    let disposable = vscode.commands.registerCommand('extension.commentOutConsoleLogs', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const document = editor.document;
+            const text = document.getText();
 
-      const edits: vscode.TextEdit[] = [];
+            // Updated regex to capture multi-line console.log statements
+            const regex = /console\.log\(([\s\S]*?)\);?/g;
+            const edits: vscode.TextEdit[] = [];
 
-      // Search for all console.log statements and add edit operations to comment them out
-      let match;
-      while ((match = regex.exec(text)) !== null) {
-        const range = new vscode.Range(
-          document.positionAt(match.index),
-          document.positionAt(match.index + match[0].length)
-        );
-        const comment = `// ${match[0]}`;
-        edits.push(vscode.TextEdit.replace(range, comment));
-      }
+            let match;
+            while ((match = regex.exec(text)) !== null) {
+                const startPos = document.positionAt(match.index);
+                const endPos = document.positionAt(match.index + match[0].length);
 
-      // Apply the edits to the document
-      const workspaceEdit = new vscode.WorkspaceEdit();
-      workspaceEdit.set(document.uri, edits);
-      vscode.workspace.applyEdit(workspaceEdit);
-    }
-	     // Notify the user when done
-    vscode.window.showInformationMessage('All console.log statements in this file have been commented out.');
-	console.log("Console Logs commented out!")
-  });
+                // Split the matched content into lines
+                const lines = match[0].split('\n');
 
-  context.subscriptions.push(disposable);
+                // Comment out each line individually
+                const commentedLines = lines.map((line, index) => {
+                    // Add '//' to the beginning of each line, preserving indentation
+                    const trimmedLine = line.trimStart(); // trimLeft() is deprecated, we used trimStart()
+                    const indentation = line.slice(0, line.length - trimmedLine.length);
+                    return `${indentation}// ${trimmedLine}`;
+                });
+
+                // Join the commented lines back together
+                const commentedText = commentedLines.join('\n');
+
+                // Create a range for the entire matched console.log
+                const range = new vscode.Range(startPos, endPos);
+                
+                // Replace the original text with the commented version
+                edits.push(vscode.TextEdit.replace(range, commentedText));
+            }
+
+            // Apply the edits to the document
+            const workspaceEdit = new vscode.WorkspaceEdit();
+            workspaceEdit.set(document.uri, edits);
+            vscode.workspace.applyEdit(workspaceEdit);
+        }
+
+        vscode.window.showInformationMessage('All console.log statements in this file have been commented out.');
+    });
+
+    context.subscriptions.push(disposable);
 }
 
 export function deactivate() {}
+
+
 
 
 
@@ -91,46 +105,63 @@ export function deactivate() {}
 // import * as vscode from 'vscode';
 
 // export function activate(context: vscode.ExtensionContext) {
-//   let disposable = vscode.commands.registerCommand('extension.commentOutConsoleLogs', async () => {
-//     // Get all the files in the workspace (you can filter by language or file type if needed)
-//     const files = await vscode.workspace.findFiles('**/*.js', '**/node_modules/**'); // Searching for JS files
+//     let disposable = vscode.commands.registerCommand('extension.commentOutConsoleLogs', async () => {
+//         // Get all the files in the workspace (filtering for JS and TS files, excluding node_modules)
+//         const files = await vscode.workspace.findFiles('**/*.{js,ts}', '**/node_modules/**');
 
-//     // Loop through each file
-//     for (const file of files) {
-//       const document = await vscode.workspace.openTextDocument(file); // Open the file as a document
-//       const text = document.getText(); // Get the text of the document
+//         let totalCommentsAdded = 0;
 
-//       // Regular expression to match console.log statements
-//       const regex = /console\.log\([^\)]*\);?/g;
-//       const edits: vscode.TextEdit[] = [];
+//         // Loop through each file
+//         for (const file of files) {
+//             const document = await vscode.workspace.openTextDocument(file);
+//             const text = document.getText();
 
-//       let match;
-//       while ((match = regex.exec(text)) !== null) {
-//         const range = new vscode.Range(
-//           document.positionAt(match.index),
-//           document.positionAt(match.index + match[0].length)
-//         );
-//         const comment = `// ${match[0]}`;
-//         edits.push(vscode.TextEdit.replace(range, comment));
-//       }
+//             // Updated regex to capture multi-line console.log statements
+//             const regex = /console\.log\(([\s\S]*?)\);?/g;
+//             const edits: vscode.TextEdit[] = [];
 
-//       // If there are edits, apply them
-//       if (edits.length > 0) {
-//         const workspaceEdit = new vscode.WorkspaceEdit();
-//         workspaceEdit.set(document.uri, edits);
-//         await vscode.workspace.applyEdit(workspaceEdit); // Apply edits to the document
-//         await document.save(); // Save the file after modifications
-//       }
-//     }
+//             let match;
+//             while ((match = regex.exec(text)) !== null) {
+//                 const startPos = document.positionAt(match.index);
+//                 const endPos = document.positionAt(match.index + match[0].length);
 
-//     // Notify the user when done
-//     vscode.window.showInformationMessage('All console.log statements have been commented out.');
-//   });
+//                 // Split the matched content into lines
+//                 const lines = match[0].split('\n');
 
-//   context.subscriptions.push(disposable);
+//                 // Comment out each line
+//                 const commentedLines = lines.map((line) => {
+//                     const trimmedLine = line.trimStart();
+//                     const indentation = line.slice(0, line.length - trimmedLine.length);
+//                     return `${indentation}// ${trimmedLine}`;
+//                 });
+
+//                 // Join the commented lines back together
+//                 const commentedText = commentedLines.join('\n');
+
+//                 // Create a range for the entire matched console.log
+//                 const range = new vscode.Range(startPos, endPos);
+                
+//                 // Replace the original text with the commented version
+//                 edits.push(vscode.TextEdit.replace(range, commentedText));
+//             }
+
+//             // If there are edits, apply them
+//             if (edits.length > 0) {
+//                 const workspaceEdit = new vscode.WorkspaceEdit();
+//                 workspaceEdit.set(document.uri, edits);
+//                 await vscode.workspace.applyEdit(workspaceEdit);
+//                 await document.save();
+//                 totalCommentsAdded += edits.length;
+//             }
+//         }
+
+//         // Notify the user when done
+//         vscode.window.showInformationMessage(`Commented out ${totalCommentsAdded} console.log statement(s) across the workspace.`);
+//     });
+
+//     context.subscriptions.push(disposable);
 // }
 
 // export function deactivate() {}
-
 
 
