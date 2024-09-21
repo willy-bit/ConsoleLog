@@ -2,7 +2,7 @@
   "name": "consolelog",
   "displayName": "//ConsoleLog",
   "description": "Comment out all console logs in your codebase",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "willy-bit",
   "repository": {
     "type": "git",
@@ -27,11 +27,11 @@
       }
     ],
     "menus": {
-        "issue/reporter": [
-            {
-                "command": "extension.commentOutConsoleLogs"
-            }
-        ]
+      "issue/reporter": [
+        {
+          "command": "extension.commentOutConsoleLogs"
+        }
+      ]
     }
   },
   "scripts": {
