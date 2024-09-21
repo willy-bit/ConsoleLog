@@ -25,14 +25,7 @@
         "command": "extension.commentOutConsoleLogs",
         "title": "Console Log"
       }
-    ],
-    "menus": {
-      "issue/reporter": [
-        {
-          "command": "extension.commentOutConsoleLogs"
-        }
-      ]
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
