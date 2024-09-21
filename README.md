@@ -1,71 +1,69 @@
-# consolelog README
+# Console Log Commenter
 
-This is the README for your extension "consolelog". After writing up a brief description, we recommend including the following sections.
+## Overview
+Console Log Commenter is a Visual Studio Code extension that automatically comments out all `console.log` statements in your currently active JavaScript or TypeScript file. This extension is perfect for quickly cleaning up your code before deployment or when you need to temporarily disable logging.
 
 ## Features
+- Comments out all `console.log` statements in the active file
+- Supports both single-line and multi-line `console.log` statements
+- Preserves original indentation
+- Works with both JavaScript (.js) and TypeScript (.ts) files
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Installation
+1. Open Visual Studio Code
+2. Go to the Extensions view by clicking on the square icon in the left sidebar or pressing `Ctrl+Shift+X`
+3. Search for "Console Log Commenter"
+4. Click on the "Install" button
 
-For example if there is an image subfolder under your extension project workspace:
+## Usage
+1. Open a JavaScript or TypeScript file in VS Code
+2. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) to open the Command Palette
+3. Type "Console Log" and select "Console Log: Comment out console logs"
+4. All `console.log` statements in the current file will be commented out
 
-\!\[feature X\]\(images/feature-x.png\)
+Alternatively, you can right-click in the editor and select "Console Log" from the context menu.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Example
+Before:
+```javascript
+console.log('Hello, world!');
+console.log(
+  'This is a multi-line',
+  'console log statement'
+);
+```
 
-## Requirements
+After:
+```javascript
+// console.log('Hello, world!');
+// console.log(
+//   'This is a multi-line',
+//   'console log statement'
+// );
+```
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Configuration
+Currently, this extension does not require any additional configuration. It works out of the box!
 
 ## Known Issues
+- The extension currently only works on the active file, not across the entire workspace.
+- It does not uncomment previously commented `console.log` statements.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Feedback and Contributions
+Your feedback and contributions are welcome! If you encounter any issues or have suggestions for improvements, please open an issue on the [GitHub repository](https://github.com/willy-bit/ConsoleLog).
 
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+Enjoy using Console Log Commenter! If you find it helpful, please consider leaving a review on the VS Code Marketplace.
 
 ## For more information
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+* [Visual Studio Code's Extension Support](https://code.visualstudio.com/api)
 
 **Enjoy!**
+
+
+
